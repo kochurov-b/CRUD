@@ -1,3 +1,6 @@
+#import './Users/Users.types.graphql'
+
 type Query {
-  hello: String
+  user(id: ID!): User!
+  users(skip: Int = 0, limit: Int = 10): [User]
 }
