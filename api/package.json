@@ -4,6 +4,7 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
+    "build": "babel src -d dist",
     "dev": "nodemon --exec babel-node ./src/app.js"
   },
   "author": "kochurov",
