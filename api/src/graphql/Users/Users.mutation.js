@@ -20,7 +20,7 @@ const updateUser = async (_, { id, input: updated }) => {
       conditions,
       updated,
       (error, result) => {
-        if (error) throw Error(error);
+        if (error) throw new Error(error);
 
         return result;
       },
@@ -30,7 +30,18 @@ const updateUser = async (_, { id, input: updated }) => {
   }
 };
 
+const deleteUser = async (_, { id }) => {
+  try {
+    const conditions = { _id: id };
+
+    return await User.findByIdAndDelete(conditions);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const mutation = {
   createUser,
   updateUser,
+  deleteUser,
 };
