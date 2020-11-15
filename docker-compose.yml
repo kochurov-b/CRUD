@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  api:
+    build: ./api
+    container_name: crud-api
+    command: npm run dev
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    networks:
+      - crud_network
+
+networks:
+  crud_network:
+    driver: bridge
