@@ -1,4 +1,4 @@
-import { User } from '../../models/Users';
+import { User } from '../../models/User';
 
 const getUserById = async (_, { id }) => {
   try {
@@ -12,7 +12,7 @@ const getUsers = async (_, { skip, limit }) => {
   try {
     return await User.find(null, null, { skip, limit });
   } catch (error) {
-    console.error('error', error);
+    console.error(error);
   }
 };
 
