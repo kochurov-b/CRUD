@@ -9,7 +9,7 @@ const renderRow = (row, columns) => {
   const { id: rowId } = row;
 
   return (
-    <TableRow hover role="checkbox" tabIndex={-1} key={rowId}>
+    <TableRow hover tabIndex={-1} key={rowId}>
       {columns.map(({ id }) => {
         const value = row[id];
 
