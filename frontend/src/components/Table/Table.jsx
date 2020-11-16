@@ -10,7 +10,7 @@ import { useTable } from './useTable';
 
 const ROWS_PER_PAGE_OPTIONS = [10, 20, 30];
 
-export const Table = ({ columns, rows }) => {
+export const Table = ({ columns, rows, actions }) => {
   const { page, rowsPerPage, onChangePage, onChangeRowsPerPage } = useTable();
   const rowsCount = rows.length;
   const startRowNumber = page * rowsPerPage;
@@ -22,7 +22,11 @@ export const Table = ({ columns, rows }) => {
       <TableContainer>
         <TableMUI>
           <TableHead columns={columns} />
-          <TableBody columns={columns} rows={generatePageRows} />
+          <TableBody
+            columns={columns}
+            rows={generatePageRows}
+            actions={actions}
+          />
         </TableMUI>
       </TableContainer>
       <TablePagination
