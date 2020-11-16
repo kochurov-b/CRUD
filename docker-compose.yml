@@ -20,8 +20,13 @@ services:
     container_name: crud-mongo
     ports:
       - '27017:27017'
+    volumes:
+      - mongo_api:/data/db
     networks:
       - crud_network
+
+volumes:
+  mongo_api:
 
 networks:
   crud_network:
