@@ -1,7 +1,27 @@
 import React from 'react';
 
+import { Table } from '../Table/Table';
+
 import './App.css';
 
 export const App = () => {
-  return <div>Hello ReactJS</div>;
+  const columns = [
+    { id: 'id', label: 'Id' },
+    { id: 'name', label: 'Name' },
+    { id: 'email', label: 'Email' },
+  ];
+
+  const rows = [
+    {
+      id: 'sfsfksjfksfjdf',
+      name: 'Andrey',
+      email: 'andrey@mail.ru',
+    },
+  ];
+
+  return (
+    <main className="app">
+      <Table columns={columns} rows={rows} />
+    </main>
+  );
 };
