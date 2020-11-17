@@ -6,6 +6,11 @@ type User {
   name: String!
 }
 
+type UsersInfo {
+  users: [User]
+  totalCount: Int!
+}
+
 input CreateUserInput {
   email: Email!
   name: String!

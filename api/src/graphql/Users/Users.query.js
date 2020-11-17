@@ -10,7 +10,13 @@ const getUserById = async (_, { id }) => {
 
 const getUsers = async (_, { skip, limit }) => {
   try {
-    return await User.find(null, null, { skip, limit });
+    const users = await User.find(null, null, { skip, limit });
+    const totalCount = await User.count();
+
+    return {
+      users,
+      totalCount,
+    };
   } catch (error) {
     console.error(error);
   }
