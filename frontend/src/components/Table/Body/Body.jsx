@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import TableBodyMUI from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -43,6 +43,6 @@ const renderRow = ({ row, columns, actions }) => {
 const renderRows = ({ rows, columns, actions }) =>
   rows.map((row) => renderRow({ row, columns, actions }));
 
-export const TableBody = (props) => (
+export const TableBody = memo((props) => (
   <TableBodyMUI>{renderRows(props)}</TableBodyMUI>
-);
+));
