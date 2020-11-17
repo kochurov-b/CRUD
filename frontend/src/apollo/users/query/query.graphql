@@ -1,0 +1,10 @@
+query users($skip: Int, $limit: Int) {
+  users(skip: $skip, limit: $limit) {
+    users {
+      id
+      name
+      email
+    }
+    totalCount
+  }
+}
