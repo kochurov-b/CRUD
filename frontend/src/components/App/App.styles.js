@@ -8,7 +8,7 @@ export const useStyles = makeStyles(({ spacing, palette }) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: spacing(3),
-    backgroundColor: palette.background.default,
+    backgroundColor: palette.background.paper,
   },
   container: {
     width: '100%',

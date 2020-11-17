@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-export const useTable = () => {
+export const useTable = (rowsPerPageInitial) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageInitial);
 
-  const handleChangePage = (event, newPage) => setPage(newPage);
+  const handleChangePage = (newPage) => setPage(newPage);
 
-  const handleChangeRowsPerPage = ({ target: { value } }) => {
-    setRowsPerPage(Number(value));
+  const handleChangeRowsPerPage = (value) => {
+    setRowsPerPage(value);
     setPage(0);
   };
 
