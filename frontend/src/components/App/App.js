@@ -4,6 +4,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Table } from '../Table/Table';
 import { useQueryUsers } from '../../apollo/users/query/query';
+import { useMutationDeleteUser } from '../../apollo/users/mutation/deleteUser/deleteUser';
+
 import { useStyles } from './App.styles';
 
 const ROWS_PER_PAGE_OPTIONS = [10, 20, 30];
@@ -26,6 +28,7 @@ export const App = () => {
     users: { users: usersData, totalCount },
     getUsers,
   } = useQueryUsers();
+  const { deleteUser } = useMutationDeleteUser();
 
   useEffect(() => {
     getUsers({
@@ -59,9 +62,7 @@ export const App = () => {
         label: 'delete',
         icon: DeleteIcon,
         color: 'secondary',
-        onClick: (id) => {
-          console.log(id);
-        },
+        onClick: (id) => deleteUser(id),
       },
     ],
     [],
