@@ -8,7 +8,7 @@ import {
 import { generateError } from '../helpers/error.helper';
 
 export const useFormDialog = ({ open, fetchData, data, fields, onConfirm }) => {
-  const initialState = useMemo(() => generateForm(fields), []);
+  const initialState = useMemo(() => generateForm(fields), [fields]);
   const [form, setForm] = useState(initialState);
 
   useEffect(() => {

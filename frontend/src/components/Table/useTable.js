@@ -65,7 +65,7 @@ export const useTable = ({
     if (dialogFetchEntityData && entityId) {
       dialogFetchEntityData(entityId);
     }
-  }, []);
+  }, [dialogFetchEntityData]);
 
   return {
     open,

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -87,6 +87,8 @@ export const App = () => {
     [],
   );
 
+  const dialogFetchEntityData = useCallback((id) => getUserById(id), []);
+
   return (
     <main className={classes.app}>
       <div className={classes.container}>
@@ -99,7 +101,7 @@ export const App = () => {
           formFields={FORM_FIELDS}
           dialogTitle={'User adding / updating'}
           dialogContentText={'Here you can create or edit an existing user!'}
-          dialogFetchEntityData={(id) => getUserById(id)}
+          dialogFetchEntityData={dialogFetchEntityData}
           dialogLoading={userLoading}
           dialogData={userData}
           rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
