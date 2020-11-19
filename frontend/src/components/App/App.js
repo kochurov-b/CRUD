@@ -71,14 +71,14 @@ export const App = () => {
   const actions = useMemo(
     () => [
       {
-        label: 'edit',
+        label: 'Edit',
         icon: EditIcon,
         color: 'primary',
         withDialog: true,
         onClick: ({ id, name, email }) => updateUser({ id, name, email }),
       },
       {
-        label: 'delete',
+        label: 'Delete',
         icon: DeleteIcon,
         color: 'secondary',
         onClick: (id) => deleteUser(id),

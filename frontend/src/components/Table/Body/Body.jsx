@@ -3,6 +3,7 @@ import TableBodyMUI from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { useStyles } from './Body.styles';
 
@@ -11,21 +12,23 @@ const renderAction = ({
   action: { label, color, icon: Icon, withDialog, onClick },
   onClickButtonAction,
 }) => (
-  <IconButton
-    key={label}
-    aria-label={label}
-    color={color}
-    size="small"
-    onClick={() =>
-      onClickButtonAction({
-        withDialog,
-        rowId,
-        onClick,
-      })
-    }
-  >
-    <Icon />
-  </IconButton>
+  <Tooltip title={label}>
+    <IconButton
+      key={label}
+      aria-label={label}
+      color={color}
+      size="small"
+      onClick={() =>
+        onClickButtonAction({
+          withDialog,
+          rowId,
+          onClick,
+        })
+      }
+    >
+      <Icon />
+    </IconButton>
+  </Tooltip>
 );
 
 const renderActions = ({
