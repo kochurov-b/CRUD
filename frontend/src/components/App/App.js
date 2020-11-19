@@ -16,6 +16,20 @@ const COLUMNS = [
   { id: 'actions', label: 'Actions', width: 100 },
 ];
 
+const FORM_FIELDS = [
+  {
+    label: 'Name',
+    name: 'name',
+    required: true,
+  },
+  {
+    label: 'Email',
+    name: 'email',
+    type: 'email',
+    required: true,
+  },
+];
+
 export const App = () => {
   const classes = useStyles();
   const [skipRowsCount, setSkipRowsCount] = useState(0);
@@ -77,6 +91,9 @@ export const App = () => {
           actions={actions}
           loading={loading}
           totalCount={totalCount}
+          formFields={FORM_FIELDS}
+          dialogTitle={'Add user'}
+          dialogContentText={'Content text'}
           rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
           getSkipRowsCount={setSkipRowsCount}
           getRowsPerPage={setRowsPerPageCount}

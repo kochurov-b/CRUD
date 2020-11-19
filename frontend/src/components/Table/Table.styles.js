@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(({ spacing }) => ({
+export const useStyles = makeStyles(({ spacing, palette }) => ({
   paper: {
     position: 'relative',
   },
@@ -10,8 +10,10 @@ export const useStyles = makeStyles(({ spacing }) => ({
   footer: {
     height: 52,
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingLeft: spacing(2),
+    borderTop: `1px solid ${palette.grey[300]}`,
   },
   loaderFooter: {
     padding: spacing(0, 2),
