@@ -4,6 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Table } from '../Table/Table';
 import { useQueryUsers } from '../../apollo/users/query/query';
+import { useMutationCreateUser } from '../../apollo/users/mutation/createUser/createUser';
 import { useMutationDeleteUser } from '../../apollo/users/mutation/deleteUser/deleteUser';
 
 import { useStyles } from './App.styles';
@@ -42,6 +43,7 @@ export const App = () => {
     users: { users: usersData, totalCount },
     getUsers,
   } = useQueryUsers();
+  const { createUser } = useMutationCreateUser(rowsPerPageCount);
   const { deleteUser } = useMutationDeleteUser();
 
   useEffect(() => {
@@ -97,6 +99,7 @@ export const App = () => {
           rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
           getSkipRowsCount={setSkipRowsCount}
           getRowsPerPage={setRowsPerPageCount}
+          onAdd={({ name, email }) => createUser(name, email)}
         />
       </div>
     </main>
