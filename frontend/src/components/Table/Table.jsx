@@ -56,7 +56,7 @@ const renderFooter = ({
   page,
   rowsPerPage,
   rowsPerPageOptions,
-  onOpen,
+  onClickButtonAdd,
   onChangePage,
   onChangeRowsPerPage,
 }) => (
@@ -65,7 +65,7 @@ const renderFooter = ({
       variant="contained"
       color="primary"
       startIcon={<AddIcon />}
-      onClick={onOpen}
+      onClick={onClickButtonAdd}
     >
       Add
     </Button>
@@ -92,6 +92,9 @@ export const Table = memo(
     formFields,
     dialogTitle,
     dialogContentText,
+    dialogFetchEntityData,
+    dialogLoading,
+    dialogData,
     rowsPerPageOptions,
     getSkipRowsCount,
     getRowsPerPage,
@@ -102,12 +105,15 @@ export const Table = memo(
       open,
       page,
       rowsPerPage,
+      dialogFetchEntityDataWithId,
       onOpen,
       onClose,
       onConfirm,
+      onClickButtonAdd,
       onChangePage,
       onChangeRowsPerPage,
     } = useTable({
+      dialogFetchEntityData,
       getSkipRowsCount,
       getRowsPerPage,
       rowsPerPageInitial: rowsPerPageOptions[0],
@@ -121,7 +127,12 @@ export const Table = memo(
             {loading && renderLoaderContainer(classes)}
             <TableMUI stickyHeader>
               <TableHead columns={columns} />
-              <TableBody columns={columns} rows={rows} actions={actions} />
+              <TableBody
+                columns={columns}
+                rows={rows}
+                actions={actions}
+                onOpenDialog={onOpen}
+              />
             </TableMUI>
           </TableContainer>
           {renderFooter({
@@ -131,7 +142,7 @@ export const Table = memo(
             page,
             rowsPerPage,
             rowsPerPageOptions,
-            onOpen,
+            onClickButtonAdd,
             onChangePage,
             onChangeRowsPerPage,
           })}
@@ -140,6 +151,9 @@ export const Table = memo(
           open={open}
           title={dialogTitle}
           contentText={dialogContentText}
+          fetchData={dialogFetchEntityDataWithId}
+          loading={dialogLoading}
+          data={dialogData}
           fields={formFields}
           onClose={onClose}
           onConfirm={onConfirm}

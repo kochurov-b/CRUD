@@ -1,11 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
-import { generateForm, generateFormValue } from '../helpers/form.helper';
+import {
+  generateForm,
+  generateFormValue,
+  valuesFormUpdate,
+} from '../helpers/form.helper';
 import { generateError } from '../helpers/error.helper';
 
-export const useFormDialog = (fields, onConfirm) => {
-  const initialState = generateForm(fields);
+export const useFormDialog = ({ open, fetchData, data, fields, onConfirm }) => {
+  const initialState = useMemo(() => generateForm(fields), []);
   const [form, setForm] = useState(initialState);
+
+  useEffect(() => {
+    if (open) {
+      fetchData();
+    }
+  }, [open, fetchData]);
+
+  useEffect(() => {
+    if (!open) {
+      setForm(initialState);
+    }
+  }, [open, initialState]);
+
+  useEffect(() => {
+    if (data !== null) {
+      setForm((prevState) => valuesFormUpdate(prevState, data));
+    }
+  }, [data]);
 
   const handleChange = ({ name, value, required }) =>
     setForm((prevState) => ({
@@ -17,10 +39,7 @@ export const useFormDialog = (fields, onConfirm) => {
       },
     }));
 
-  const handleSubmit = () => {
-    onConfirm(generateFormValue(form));
-    setForm(initialState);
-  };
+  const handleSubmit = () => onConfirm(generateFormValue(form));
 
   return { form, onChange: handleChange, onSubmit: handleSubmit };
 };

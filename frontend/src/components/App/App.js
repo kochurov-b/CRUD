@@ -4,8 +4,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { Table } from '../Table/Table';
 import { useQueryUsers } from '../../apollo/users/query/query';
+import { useQueryGetUserById } from '../../apollo/users/query/getUser/getUser';
 import { useMutationCreateUser } from '../../apollo/users/mutation/createUser/createUser';
 import { useMutationDeleteUser } from '../../apollo/users/mutation/deleteUser/deleteUser';
+import { useMutationUpdateUser } from '../../apollo/users/mutation/updateUser/updateUser';
 
 import { useStyles } from './App.styles';
 
@@ -43,8 +45,10 @@ export const App = () => {
     users: { users: usersData, totalCount },
     getUsers,
   } = useQueryUsers();
+  const { getUserById, userData, loading: userLoading } = useQueryGetUserById();
   const { createUser } = useMutationCreateUser(rowsPerPageCount);
   const { deleteUser } = useMutationDeleteUser();
+  const { updateUser } = useMutationUpdateUser();
 
   useEffect(() => {
     getUsers({
@@ -70,9 +74,8 @@ export const App = () => {
         label: 'edit',
         icon: EditIcon,
         color: 'primary',
-        onClick: (id) => {
-          console.log(id);
-        },
+        withDialog: true,
+        onClick: ({ id, name, email }) => updateUser({ id, name, email }),
       },
       {
         label: 'delete',
@@ -94,8 +97,11 @@ export const App = () => {
           loading={loading}
           totalCount={totalCount}
           formFields={FORM_FIELDS}
-          dialogTitle={'Add user'}
-          dialogContentText={'Content text'}
+          dialogTitle={'User adding / updating'}
+          dialogContentText={'Here you can create or edit an existing user!'}
+          dialogFetchEntityData={(id) => getUserById(id)}
+          dialogLoading={userLoading}
+          dialogData={userData}
           rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
           getSkipRowsCount={setSkipRowsCount}
           getRowsPerPage={setRowsPerPageCount}

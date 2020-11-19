@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useFormDialog } from './useFormDialog';
 import { isSubmitButtonDisable } from '../helpers/form.helper';
@@ -37,10 +38,13 @@ const renderFields = (form, onChange) =>
     return renderField({ field, isFirstField, onChange });
   });
 
-const renderContent = ({ form, contentText, onChange }) => (
+const renderContent = ({ form, loading, contentText, onChange }) => (
   <DialogContent>
     <DialogContentText>{contentText}</DialogContentText>
-    <form>{renderFields(form, onChange)}</form>
+    <form>
+      {loading && <CircularProgress size={25} />}
+      {renderFields(form, onChange)}
+    </form>
   </DialogContent>
 );
 
@@ -61,14 +65,30 @@ const renderActions = ({ isSubmitButtonDisable, onClose, onSubmit }) => (
 );
 
 export const FormDialog = memo(
-  ({ open, title, contentText, fields, onClose, onConfirm }) => {
-    const { form, onChange, onSubmit } = useFormDialog(fields, onConfirm);
+  ({
+    open,
+    title,
+    contentText,
+    fields,
+    fetchData,
+    loading,
+    data,
+    onClose,
+    onConfirm,
+  }) => {
+    const { form, onChange, onSubmit } = useFormDialog({
+      open,
+      data,
+      fields,
+      fetchData,
+      onConfirm,
+    });
 
     return (
       <div>
         <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog">
           <DialogTitle id="form-dialog-title">{title}</DialogTitle>
-          {renderContent({ form, contentText, onChange })}
+          {renderContent({ form, loading, contentText, onChange })}
           {renderActions({
             isSubmitButtonDisable: isSubmitButtonDisable(form),
             onClose,

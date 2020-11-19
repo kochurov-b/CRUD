@@ -28,3 +28,16 @@ export const isSubmitButtonDisable = (form) =>
     ({ value, required, error }) =>
       error.length !== 0 || (required && value.length === 0),
   );
+
+export const valuesFormUpdate = (form, data) =>
+  Object.keys(form).reduce(
+    (acc, field) => ({
+      ...acc,
+      [field]: {
+        ...form[field],
+        error: '',
+        value: data[field] || '',
+      },
+    }),
+    {},
+  );
