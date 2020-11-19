@@ -12,9 +12,8 @@ const renderAction = ({
   action: { label, color, icon: Icon, withDialog, onClick },
   onClickButtonAction,
 }) => (
-  <Tooltip title={label}>
+  <Tooltip key={label} title={label}>
     <IconButton
-      key={label}
       aria-label={label}
       color={color}
       size="small"
