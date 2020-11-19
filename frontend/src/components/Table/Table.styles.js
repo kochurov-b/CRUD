@@ -5,24 +5,16 @@ export const useStyles = makeStyles(({ spacing, palette }) => ({
     position: 'relative',
   },
   container: {
+    position: 'relative',
     height: 560,
   },
   footer: {
+    position: 'relative',
     height: 52,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingLeft: spacing(2),
     borderTop: `1px solid ${palette.grey[300]}`,
-  },
-  loaderFooter: {
-    padding: spacing(0, 2),
-  },
-  loaderContainer: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 9,
   },
 }));

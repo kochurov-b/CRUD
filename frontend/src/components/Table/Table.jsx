@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import TableMUI from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 
@@ -12,15 +11,9 @@ import { TableBody } from './Body/Body';
 import { useTable } from './useTable';
 import { useStyles } from './Table.styles';
 import { FormDialog } from './FormDialog/FormDialog';
-
-const renderLoaderContainer = (classes) => (
-  <div className={classes.loaderContainer}>
-    <CircularProgress />
-  </div>
-);
+import { Loader } from '../Loader/Loader';
 
 const renderPagination = ({
-  classes,
   loading,
   totalCount,
   page,
@@ -29,12 +22,7 @@ const renderPagination = ({
   onChangePage,
   onChangeRowsPerPage,
 }) => {
-  if (loading)
-    return (
-      <div className={classes.loaderFooter}>
-        <CircularProgress size={30} />
-      </div>
-    );
+  if (loading) return <Loader open={loading} size={30} />;
 
   return (
     <TablePagination
@@ -70,7 +58,6 @@ const renderFooter = ({
       Add
     </Button>
     {renderPagination({
-      classes,
       loading,
       totalCount,
       page,
@@ -124,7 +111,7 @@ export const Table = memo(
       <>
         <Paper className={classes.paper}>
           <TableContainer className={classes.container}>
-            {loading && renderLoaderContainer(classes)}
+            <Loader open={loading} />
             <TableMUI stickyHeader>
               <TableHead columns={columns} />
               <TableBody

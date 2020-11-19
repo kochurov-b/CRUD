@@ -6,10 +6,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { useFormDialog } from './useFormDialog';
 import { isSubmitButtonDisable } from '../helpers/form.helper';
+import { Loader } from '.././../Loader/Loader';
+import { useStyles } from './FormDialog.styles';
 
 const renderField = ({
   field: { label, name, value, type, error, required },
@@ -38,11 +39,11 @@ const renderFields = (form, onChange) =>
     return renderField({ field, isFirstField, onChange });
   });
 
-const renderContent = ({ form, loading, contentText, onChange }) => (
+const renderContent = ({ classes, form, loading, contentText, onChange }) => (
   <DialogContent>
     <DialogContentText>{contentText}</DialogContentText>
-    <form>
-      {loading && <CircularProgress size={25} />}
+    <form className={classes.form}>
+      <Loader open={loading} size={35} />
       {renderFields(form, onChange)}
     </form>
   </DialogContent>
@@ -76,6 +77,7 @@ export const FormDialog = memo(
     onClose,
     onConfirm,
   }) => {
+    const classes = useStyles();
     const { form, onChange, onSubmit } = useFormDialog({
       open,
       data,
@@ -88,7 +90,7 @@ export const FormDialog = memo(
       <div>
         <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog">
           <DialogTitle id="form-dialog-title">{title}</DialogTitle>
-          {renderContent({ form, loading, contentText, onChange })}
+          {renderContent({ classes, form, loading, contentText, onChange })}
           {renderActions({
             isSubmitButtonDisable: isSubmitButtonDisable(form),
             onClose,
