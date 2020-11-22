@@ -11,7 +11,7 @@ const getUserById = async (_, { id }) => {
 const getUsers = async (_, { skip, limit }) => {
   try {
     const users = await User.find(null, null, { skip, limit });
-    const totalCount = await User.count();
+    const totalCount = await User.countDocuments();
 
     return {
       users,
