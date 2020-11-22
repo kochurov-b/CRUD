@@ -70,6 +70,7 @@ export const FormDialog = memo(
     open,
     title,
     contentText,
+    actionName,
     fields,
     fetchData,
     loading,
@@ -82,6 +83,7 @@ export const FormDialog = memo(
       open,
       data,
       fields,
+      actionName,
       fetchData,
       onConfirm,
     });

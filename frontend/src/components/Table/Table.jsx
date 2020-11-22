@@ -91,14 +91,15 @@ export const Table = memo(
     const {
       open,
       page,
+      actionName,
       rowsPerPage,
       dialogFetchEntityDataWithId,
-      onOpen,
       onClose,
       onConfirm,
       onClickButtonAdd,
       onChangePage,
       onChangeRowsPerPage,
+      onClickButtonAction,
     } = useTable({
       dialogFetchEntityData,
       getSkipRowsCount,
@@ -118,7 +119,7 @@ export const Table = memo(
                 columns={columns}
                 rows={rows}
                 actions={actions}
-                onOpenDialog={onOpen}
+                onClickButtonAction={onClickButtonAction}
               />
             </TableMUI>
           </TableContainer>
@@ -138,6 +139,7 @@ export const Table = memo(
           open={open}
           title={dialogTitle}
           contentText={dialogContentText}
+          actionName={actionName}
           fetchData={dialogFetchEntityDataWithId}
           loading={dialogLoading}
           data={dialogData}

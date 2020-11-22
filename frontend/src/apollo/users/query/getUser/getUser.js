@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useLazyQuery } from '@apollo/react-hooks';
 
 import { GET_USER_BY_ID } from './getUser.query';
@@ -8,13 +9,16 @@ export const useQueryGetUserById = () => {
   );
   const userData = data ? data.user : null;
 
-  const getUserById = (id) => {
-    const variables = { id };
+  const getUserById = useCallback(
+    (id) => {
+      const variables = { id };
 
-    handlerGetUserById({
-      variables,
-    });
-  };
+      handlerGetUserById({
+        variables,
+      });
+    },
+    [handlerGetUserById],
+  );
 
   return { loading, error, userData, getUserById };
 };

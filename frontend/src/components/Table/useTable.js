@@ -1,13 +1,10 @@
 import { useState, useRef, useCallback } from 'react';
 
 const getEntityData = (entityDataStore) => {
-  const {
-    current: { onConfirm, ...entityData },
-  } = entityDataStore;
+  const { current: entityData } = entityDataStore;
 
   return {
     ...entityData,
-    onConfirm,
   };
 };
 
@@ -42,27 +39,54 @@ export const useTable = ({
     getRowsPerPage(currentValue);
   };
 
-  const handleOpen = (entityData) => {
-    entityDataStore.current = entityData;
-
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
   const handleConfirm = (formValue) => {
-    const { onConfirm, ...entityData } = getEntityData(entityDataStore);
+    const { onConfirm, entityId, ...entityData } = getEntityData(
+      entityDataStore,
+    );
 
-    onConfirm({ ...entityData, ...formValue });
+    onConfirm({
+      ...entityData,
+      ...formValue,
+      id: entityId,
+    });
     handleClose();
   };
 
-  const handleClickButtonAdd = () => handleOpen({ onConfirm: onAdd });
+  const handleClickButtonAdd = () => {
+    entityDataStore.current = {
+      onConfirm: onAdd,
+    };
+
+    handleOpen();
+  };
+
+  const handleClickButtonAction = (args) => {
+    const { withDialog, entityId, onClick, ...otherArgs } = args;
+
+    if (withDialog) {
+      entityDataStore.current = {
+        ...otherArgs,
+        entityId,
+        onConfirm: onClick,
+      };
+
+      return handleOpen();
+    }
+
+    return onClick({
+      ...otherArgs,
+      id: entityId,
+    });
+  };
 
   const dialogFetchEntityDataWithId = useCallback(() => {
-    const { id: entityId } = getEntityData(entityDataStore);
+    const { entityId, name: actionName } = getEntityData(entityDataStore);
 
-    if (dialogFetchEntityData && entityId) {
+    if (dialogFetchEntityData && actionName === 'update') {
       dialogFetchEntityData(entityId);
     }
   }, [dialogFetchEntityData]);
@@ -70,13 +94,14 @@ export const useTable = ({
   return {
     open,
     page,
+    actionName: getEntityData(entityDataStore).name,
     rowsPerPage,
     dialogFetchEntityDataWithId,
     onConfirm: handleConfirm,
     onClickButtonAdd: handleClickButtonAdd,
     onChangePage: handleChangePageWithSkip,
     onChangeRowsPerPage: handleChangeRowsPerPageWithPerPage,
-    onOpen: handleOpen,
     onClose: handleClose,
+    onClickButtonAction: handleClickButtonAction,
   };
 };

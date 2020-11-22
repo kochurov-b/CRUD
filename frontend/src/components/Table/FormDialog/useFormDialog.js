@@ -7,9 +7,20 @@ import {
 } from '../helpers/form.helper';
 import { generateError } from '../helpers/error.helper';
 
-export const useFormDialog = ({ open, fetchData, data, fields, onConfirm }) => {
+export const useFormDialog = ({
+  open,
+  actionName,
+  fetchData,
+  data,
+  fields,
+  onConfirm,
+}) => {
   const initialState = useMemo(() => generateForm(fields), [fields]);
   const [form, setForm] = useState(initialState);
+
+  const actionFactory = (data) => ({
+    update: () => setForm((prevState) => valuesFormUpdate(prevState, data)),
+  });
 
   useEffect(() => {
     if (open) {
@@ -24,10 +35,10 @@ export const useFormDialog = ({ open, fetchData, data, fields, onConfirm }) => {
   }, [open, initialState]);
 
   useEffect(() => {
-    if (data !== null) {
-      setForm((prevState) => valuesFormUpdate(prevState, data));
+    if (open && actionName && data !== null) {
+      actionFactory(data)[actionName]();
     }
-  }, [data]);
+  }, [open, data, actionName]);
 
   const handleChange = ({ name, value, required }) =>
     setForm((prevState) => ({

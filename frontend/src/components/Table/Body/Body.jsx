@@ -8,8 +8,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useStyles } from './Body.styles';
 
 const renderAction = ({
-  rowId,
-  action: { label, color, icon: Icon, withDialog, onClick },
+  entityId,
+  action: { label, color, icon: Icon, ...actionProps },
   onClickButtonAction,
 }) => (
   <Tooltip key={label} title={label}>
@@ -19,9 +19,8 @@ const renderAction = ({
       size="small"
       onClick={() =>
         onClickButtonAction({
-          withDialog,
-          rowId,
-          onClick,
+          ...actionProps,
+          entityId,
         })
       }
     >
@@ -33,14 +32,14 @@ const renderAction = ({
 const renderActions = ({
   classes,
   columnId,
-  rowId,
+  entityId,
   actions,
   onClickButtonAction,
 }) => (
   <TableCell key={columnId}>
     <div className={classes.actions}>
       {actions.map((action) =>
-        renderAction({ rowId, action, onClickButtonAction }),
+        renderAction({ entityId, action, onClickButtonAction }),
       )}
     </div>
   </TableCell>
@@ -49,16 +48,16 @@ const renderActions = ({
 const renderCell = (id, value) => <TableCell key={id}>{value}</TableCell>;
 
 const renderRow = ({ classes, row, columns, actions, onClickButtonAction }) => {
-  const { id: rowId } = row;
+  const { id: entityId } = row;
 
   return (
-    <TableRow hover tabIndex={-1} key={rowId}>
+    <TableRow hover tabIndex={-1} key={entityId}>
       {columns.map(({ id }) => {
         if (id === 'actions') {
           return renderActions({
             classes,
             columnId: id,
-            rowId,
+            entityId,
             actions,
             onClickButtonAction,
           });
@@ -77,26 +76,13 @@ const renderRows = ({ classes, rows, columns, actions, onClickButtonAction }) =>
   );
 
 export const TableBody = memo((props) => {
-  const { onOpenDialog } = props;
   const classes = useStyles();
-
-  const handleClickButtonAction = ({ withDialog, rowId, onClick }) => {
-    if (withDialog) {
-      return onOpenDialog({
-        id: rowId,
-        onConfirm: onClick,
-      });
-    }
-
-    return onClick(rowId);
-  };
 
   return (
     <TableBodyMUI>
       {renderRows({
         ...props,
         classes,
-        onClickButtonAction: handleClickButtonAction,
       })}
     </TableBodyMUI>
   );
