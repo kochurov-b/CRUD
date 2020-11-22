@@ -7,6 +7,7 @@ import { useQueryGetUserById } from '../../apollo/users/query/getUser/getUser';
 import { useMutationCreateUser } from '../../apollo/users/mutation/createUser/createUser';
 import { useMutationDeleteUser } from '../../apollo/users/mutation/deleteUser/deleteUser';
 import { useMutationUpdateUser } from '../../apollo/users/mutation/updateUser/updateUser';
+import { useConfirm } from '../Confirm/Confirm.hook';
 
 import { useStyles } from './App.styles';
 
@@ -42,6 +43,7 @@ export const useApp = () => {
     rowsPerPageOptions[0],
   );
 
+  const confirm = useConfirm();
   const classes = useStyles();
   const {
     loading,
@@ -72,6 +74,23 @@ export const useApp = () => {
     });
   }, [getUsers, rowsPerPageCount]);
 
+  const generateConfirmOptions = useCallback(
+    (name) => ({
+      title: `Are you sure you want to delete user "${name}"?`,
+      description:
+        'When you confirm the action, you will permanently delete the user!',
+    }),
+    [],
+  );
+
+  const deleteUserWithConfirm = async ({ id, name }) => {
+    try {
+      await confirm(generateConfirmOptions(name));
+
+      deleteUser(id);
+    } catch {}
+  };
+
   const actions = useMemo(
     () => [
       {
@@ -87,7 +106,7 @@ export const useApp = () => {
         name: 'delete',
         icon: DeleteIcon,
         color: 'secondary',
-        onClick: ({ id }) => deleteUser(id),
+        onClick: deleteUserWithConfirm,
       },
     ],
     [updateUser, deleteUser],

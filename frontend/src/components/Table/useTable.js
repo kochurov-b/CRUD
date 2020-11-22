@@ -65,7 +65,7 @@ export const useTable = ({
   };
 
   const handleClickButtonAction = (args) => {
-    const { withDialog, entityId, onClick, ...otherArgs } = args;
+    const { withDialog, entityId, entityInfo, onClick, ...otherArgs } = args;
 
     if (withDialog) {
       entityDataStore.current = {
@@ -79,6 +79,7 @@ export const useTable = ({
 
     return onClick({
       ...otherArgs,
+      ...entityInfo,
       id: entityId,
     });
   };

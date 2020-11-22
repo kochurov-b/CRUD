@@ -9,6 +9,7 @@ import { useStyles } from './Body.styles';
 
 const renderAction = ({
   entityId,
+  entityInfo,
   action: { label, color, icon: Icon, ...actionProps },
   onClickButtonAction,
 }) => (
@@ -21,6 +22,7 @@ const renderAction = ({
         onClickButtonAction({
           ...actionProps,
           entityId,
+          entityInfo,
         })
       }
     >
@@ -33,13 +35,14 @@ const renderActions = ({
   classes,
   columnId,
   entityId,
+  entityInfo,
   actions,
   onClickButtonAction,
 }) => (
   <TableCell key={columnId}>
     <div className={classes.actions}>
       {actions.map((action) =>
-        renderAction({ entityId, action, onClickButtonAction }),
+        renderAction({ entityId, entityInfo, action, onClickButtonAction }),
       )}
     </div>
   </TableCell>
@@ -58,6 +61,7 @@ const renderRow = ({ classes, row, columns, actions, onClickButtonAction }) => {
             classes,
             columnId: id,
             entityId,
+            entityInfo: row,
             actions,
             onClickButtonAction,
           });

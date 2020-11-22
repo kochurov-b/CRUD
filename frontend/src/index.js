@@ -4,13 +4,16 @@ import { ApolloProvider } from '@apollo/client';
 
 import { App } from './components/App/App';
 import reportWebVitals from './reportWebVitals';
+import { ConfirmProvider } from './components/Confirm/Confirm.context';
 import { client } from './apollo/apollo';
 
 import './index.css';
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <ConfirmProvider>
+      <App />
+    </ConfirmProvider>
   </ApolloProvider>,
   document.getElementById('root'),
 );
