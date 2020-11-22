@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/react-hooks';
 
-import { GET_USERS } from './query.query';
+import { GET_USERS } from './getUsers.query';
 
 const DEFAULT_USERS_DATA = { users: { users: [], totalCount: 0 } };
 

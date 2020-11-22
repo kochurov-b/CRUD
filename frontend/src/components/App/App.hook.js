@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect, useCallback } from 'react';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { useQueryUsers } from '../../apollo/users/query/query';
+import { useQueryUsers } from '../../apollo/users/query/getUsers/getUsers';
 import { useQueryGetUserById } from '../../apollo/users/query/getUser/getUser';
 import { useMutationCreateUser } from '../../apollo/users/mutation/createUser/createUser';
 import { useMutationDeleteUser } from '../../apollo/users/mutation/deleteUser/deleteUser';
