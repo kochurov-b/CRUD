@@ -1,3 +1,4 @@
+import http from 'http';
 import express from 'express';
 
 import { config } from './config/config';
@@ -7,11 +8,14 @@ import { connectDb } from './helpers/connectDb.helper';
 const app = express();
 apolloSerer.applyMiddleware({ app });
 
+const httpServer = http.createServer(app);
+apolloSerer.installSubscriptionHandlers(httpServer);
+
 const startServer = () => {
   const { port, mongoUri } = config;
   const { graphqlPath } = apolloSerer;
 
-  app.listen(port, () => {
+  httpServer.listen(port, () => {
     console.log(`Server running on port ${port}${graphqlPath}`);
     console.log(`Our database ${mongoUri}`);
   });

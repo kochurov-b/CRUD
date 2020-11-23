@@ -1,4 +1,5 @@
 #import './Users/Users.types.graphql'
+#import './Notification/Notification.types.graphql'
 
 type Query {
   user(id: ID!): User!
@@ -9,4 +10,8 @@ type Mutation {
   createUser(input: CreateUserInput!): User!
   updateUser(id: ID!, input: UpdateUserInput!): User!
   deleteUser(id: ID!): User!
+}
+
+type Subscription {
+  notification: Notification!
 }

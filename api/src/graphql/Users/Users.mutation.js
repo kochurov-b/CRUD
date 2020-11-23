@@ -1,10 +1,17 @@
 import { User } from '../../models/User';
+import { setNotification } from '../helpers/notification.helper';
+import { SET_NOTIFICATION } from '../Notification/Notification.constants';
 
-const createUser = async (_, { input: userData }) => {
+const createUser = async (_, { input: userData }, { pubSub }) => {
   try {
     const user = new User(userData);
+    const { name } = user;
 
     await user.save();
+
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(`New user "${name}" has been added!`),
+    });
 
     return user;
   } catch (error) {
@@ -12,29 +19,33 @@ const createUser = async (_, { input: userData }) => {
   }
 };
 
-const updateUser = async (_, { id, input: updated }) => {
+const updateUser = async (_, { id, input: updated }, { pubSub }) => {
   try {
     const conditions = { _id: id };
+    const updatedUser = await User.findByIdAndUpdate(conditions, updated);
+    const { name } = updatedUser;
 
-    return await User.findByIdAndUpdate(
-      conditions,
-      updated,
-      (error, result) => {
-        if (error) throw new Error(error);
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(`User "${name}" was updated!`),
+    });
 
-        return result;
-      },
-    );
+    return updatedUser;
   } catch (error) {
     console.error(error);
   }
 };
 
-const deleteUser = async (_, { id }) => {
+const deleteUser = async (_, { id }, { pubSub }) => {
   try {
     const conditions = { _id: id };
+    const deletedUser = await User.findByIdAndDelete(conditions);
+    const { name } = deletedUser;
 
-    return await User.findByIdAndDelete(conditions);
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(`User "${name}" was removed!`),
+    });
+
+    return deletedUser;
   } catch (error) {
     console.error(error);
   }
