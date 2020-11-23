@@ -1,8 +1,8 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-import { config } from '../config/config';
+import { link } from './apollo.link';
 
 export const client = new ApolloClient({
-  uri: config.apolloUri,
+  link,
   cache: new InMemoryCache(),
 });

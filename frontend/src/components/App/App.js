@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useApp } from './App.hook';
 import { Table } from '../Table/Table';
+import { Snackbar } from '../Snackbar/Snackbar';
 
 export const App = () => {
   const {
@@ -18,6 +19,9 @@ export const App = () => {
     setRowsPerPageCount,
     rowsPerPageOptions,
     dialogFetchEntityData,
+    notification: { message, type },
+    openNotification,
+    onCloseNotification,
     onAdd,
   } = useApp();
 
@@ -42,6 +46,12 @@ export const App = () => {
           onAdd={onAdd}
         />
       </div>
+      <Snackbar
+        open={openNotification}
+        message={message}
+        type={type}
+        onClose={onCloseNotification}
+      />
     </main>
   );
 };

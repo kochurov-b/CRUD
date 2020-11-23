@@ -7,6 +7,7 @@ import { useQueryGetUserById } from '../../apollo/users/query/getUser/getUser';
 import { useMutationCreateUser } from '../../apollo/users/mutation/createUser/createUser';
 import { useMutationDeleteUser } from '../../apollo/users/mutation/deleteUser/deleteUser';
 import { useMutationUpdateUser } from '../../apollo/users/mutation/updateUser/updateUser';
+import { useSubNotification } from '../../apollo/notification/notification';
 import { useConfirm } from '../Confirm/Confirm.hook';
 
 import { useStyles } from './App.styles';
@@ -42,6 +43,7 @@ export const useApp = () => {
   const [rowsPerPageCount, setRowsPerPageCount] = useState(
     rowsPerPageOptions[0],
   );
+  const [openNotification, setOpenNotification] = useState(false);
 
   const confirm = useConfirm();
   const classes = useStyles();
@@ -55,6 +57,14 @@ export const useApp = () => {
   const { createUser } = useMutationCreateUser(rowsPerPageCount);
   const { deleteUser } = useMutationDeleteUser();
   const { updateUser } = useMutationUpdateUser();
+  const { notification } = useSubNotification();
+  const { message } = notification;
+
+  useEffect(() => {
+    if (message !== '') {
+      setOpenNotification(true);
+    }
+  }, [message]);
 
   useEffect(() => {
     getUsers({
@@ -73,6 +83,8 @@ export const useApp = () => {
       },
     });
   }, [getUsers, rowsPerPageCount]);
+
+  const handleCloseNotification = () => setOpenNotification(false);
 
   const generateConfirmOptions = useCallback(
     (name) => ({
@@ -132,6 +144,9 @@ export const useApp = () => {
     setRowsPerPageCount,
     rowsPerPageOptions,
     dialogFetchEntityData,
+    notification,
+    openNotification,
+    onCloseNotification: handleCloseNotification,
     onAdd,
   };
 };
