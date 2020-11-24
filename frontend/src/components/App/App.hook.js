@@ -94,13 +94,16 @@ export const useApp = () => {
     [],
   );
 
-  const deleteUserWithConfirm = async ({ id, name }) => {
-    try {
-      await confirm(generateConfirmOptions(name));
+  const deleteUserWithConfirm = useCallback(
+    async ({ id, name }) => {
+      try {
+        await confirm(generateConfirmOptions(name));
 
-      deleteUser(id);
-    } catch {}
-  };
+        deleteUser(id);
+      } catch {}
+    },
+    [confirm, deleteUser, generateConfirmOptions],
+  );
 
   const actions = useMemo(
     () => [
@@ -120,7 +123,7 @@ export const useApp = () => {
         onClick: deleteUserWithConfirm,
       },
     ],
-    [updateUser, deleteUser],
+    [updateUser, deleteUserWithConfirm],
   );
 
   const dialogFetchEntityData = useCallback((id) => getUserById(id), [
