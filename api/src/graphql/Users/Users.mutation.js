@@ -25,7 +25,12 @@ const createUser = async (parent, { input: userData }, { pubSub }) => {
 const updateUser = async (parent, { id, input: updated }, { pubSub }) => {
   try {
     const conditions = { _id: id };
-    const updatedUser = await User.findByIdAndUpdate(conditions, updated);
+    const options = { new: true };
+    const updatedUser = await User.findByIdAndUpdate(
+      conditions,
+      updated,
+      options,
+    );
     const { name } = updatedUser;
 
     pubSub.publish(SET_NOTIFICATION, {
