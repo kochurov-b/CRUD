@@ -49,7 +49,6 @@ export const useApp = () => {
   const classes = useStyles();
   const {
     loading,
-    error,
     users: { users: usersData, totalCount },
     getUsers,
   } = useQueryUsers();

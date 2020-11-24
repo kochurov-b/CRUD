@@ -9,7 +9,7 @@ export const useQueryUsers = () => {
     fetchPolicy: 'cache-and-network',
     nextFetchPolicy: 'cache-first',
   });
-  const users = data ? data : DEFAULT_USERS_DATA;
+  const users = data && data.users !== null ? data : DEFAULT_USERS_DATA;
 
   return { ...users, loading, error, getUsers };
 };

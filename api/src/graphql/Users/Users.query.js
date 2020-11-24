@@ -1,14 +1,19 @@
 import { User } from '../../models/User';
+import { setNotification } from '../helpers/notification.helper';
+import { SET_NOTIFICATION } from '../Notification/Notification.constants';
 
-const getUserById = async (_, { id }) => {
+const getUserById = async (parent, { id }, { pubSub }) => {
   try {
     return await User.findById(id);
   } catch (error) {
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(error.message, 'error'),
+    });
     console.error(error);
   }
 };
 
-const getUsers = async (_, { skip, limit }) => {
+const getUsers = async (parent, { skip, limit }, { pubSub }) => {
   try {
     const users = await User.find(null, null, { skip, limit });
     const totalCount = await User.countDocuments();
@@ -18,6 +23,9 @@ const getUsers = async (_, { skip, limit }) => {
       totalCount,
     };
   } catch (error) {
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(error.message, 'error'),
+    });
     console.error(error);
   }
 };

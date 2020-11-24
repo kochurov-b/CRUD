@@ -2,7 +2,7 @@ import { User } from '../../models/User';
 import { setNotification } from '../helpers/notification.helper';
 import { SET_NOTIFICATION } from '../Notification/Notification.constants';
 
-const createUser = async (_, { input: userData }, { pubSub }) => {
+const createUser = async (parent, { input: userData }, { pubSub }) => {
   try {
     const user = new User(userData);
     const { name } = user;
@@ -15,11 +15,14 @@ const createUser = async (_, { input: userData }, { pubSub }) => {
 
     return user;
   } catch (error) {
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(error.message, 'error'),
+    });
     console.error(error);
   }
 };
 
-const updateUser = async (_, { id, input: updated }, { pubSub }) => {
+const updateUser = async (parent, { id, input: updated }, { pubSub }) => {
   try {
     const conditions = { _id: id };
     const updatedUser = await User.findByIdAndUpdate(conditions, updated);
@@ -31,11 +34,14 @@ const updateUser = async (_, { id, input: updated }, { pubSub }) => {
 
     return updatedUser;
   } catch (error) {
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(error.message, 'error'),
+    });
     console.error(error);
   }
 };
 
-const deleteUser = async (_, { id }, { pubSub }) => {
+const deleteUser = async (parent, { id }, { pubSub }) => {
   try {
     const conditions = { _id: id };
     const deletedUser = await User.findByIdAndDelete(conditions);
@@ -47,6 +53,9 @@ const deleteUser = async (_, { id }, { pubSub }) => {
 
     return deletedUser;
   } catch (error) {
+    pubSub.publish(SET_NOTIFICATION, {
+      ...setNotification(error.message, 'error'),
+    });
     console.error(error);
   }
 };
